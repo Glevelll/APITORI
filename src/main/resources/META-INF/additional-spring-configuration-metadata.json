@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "telnet",
+      "type": "java.lang.String",
+      "description": "Description for telnet."
+  }
+] }

@@ -1,0 +1,31 @@
+version: "3.7"
+services:
+  api_service:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8081:8082"
+    networks:
+      - appnet
+    depends_on:
+      - postgresql_db
+    links:
+      - postgresql_db:postgresql_db
+  postgresql_db:
+    image: postgres:latest
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=ToriApiDb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=448880Gleb
+    networks:
+      - appnet
+    volumes:
+      - db:/var/lib/postgresql/data
+
+networks:
+  appnet:
+volumes:
+  db:
