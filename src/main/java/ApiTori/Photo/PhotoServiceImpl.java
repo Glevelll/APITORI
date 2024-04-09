@@ -9,6 +9,7 @@ import jakarta.websocket.OnMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -42,6 +43,7 @@ public class PhotoServiceImpl implements PhotoService {
         }
 
         Photo photo = Photo.builder()
+                .uniqIdentifier(fileName)
                 .sender(senderUser)
                 .recipients(recipientsUsersList)
                 .datePhoto(datePhoto)
@@ -59,19 +61,26 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     private String saveImageAndGetUrl(byte[] image, String fileName) {
-        String folderPath = "C:/Users/Глеб/Glevel/image";
+        String imageUrl = "/photos/" + fileName + ".jpg";
+        File directory = new File("/root/APITORI/images/");
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
 
-        try (FileOutputStream fos = new FileOutputStream(folderPath + "/" + fileName + ".jpg")) {
+        File file = new File(directory, fileName + ".jpg");
+
+        try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(image);
         } catch (IOException e) {
             e.printStackTrace();
+            imageUrl = null;
         }
 
-        return "http://localhost:8081/images/" + fileName + ".jpg";
+        return imageUrl;
     }
 
     @Override
-    public PhotoDTO getPhoto(Integer identifier) {
+    public PhotoDTO getPhoto(String identifier) {
 
         Optional<Photo> optionalPhoto = photoRepository.findByUniqIdentifier(identifier);
 
@@ -86,7 +95,7 @@ public class PhotoServiceImpl implements PhotoService {
 
     @Transactional
     @Override
-    public boolean deletePhoto(Integer userId, Integer photoId) {
+    public boolean deletePhoto(Integer userId, String photoId) {
         Optional<Photo> optionalPhoto = photoRepository.findByUniqIdentifier(photoId);
 
         if (optionalPhoto.isPresent()) {

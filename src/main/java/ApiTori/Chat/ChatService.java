@@ -7,6 +7,7 @@ import ApiTori.User.UserRepository;
 import ApiTori.User.Entityes.User;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class ChatService {
     PhotoRepository photoRepository;
 
     //не дает вернуть ок, если поставить тип CHAT
-    public ResponseEntity<?> sendMessage(String loginFrom, String message, Timestamp dateChat, Integer imageId) {
+    public ResponseEntity<?> sendMessage(String loginFrom, String message, Timestamp dateChat, String imageId) {
         System.out.println("Отправляем сообщение");
         Optional<User> userFrom = userRepository.findByLogin(loginFrom); // человек, который отправляет
         Optional<Photo> imageTo = photoRepository.findByUniqIdentifier(imageId); // человек, которому отправляют
@@ -54,7 +55,7 @@ public class ChatService {
     }
 
     // ТУТ АНАЛОГИЧНАЯ ИСТОРИЯ
-    public ResponseEntity<?> getMessages(List<Integer> imageIds) {
+    public ResponseEntity<?> getMessages(List<String> imageIds) {
         System.out.println("Getting messages");
         List<Photo> photos = photoRepository.findAllById(imageIds);
         List<ChatDTORequest> chatDTOs = new ArrayList<>();
@@ -82,6 +83,23 @@ public class ChatService {
             return ResponseEntity.ok().body(chatDTOs);
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    public ResponseEntity<?> deleteMessage(String loginFrom, int idChat) {
+        Optional<User> user = userRepository.findByLogin(loginFrom);
+        Optional<Chat> chatToDelete = chatRepository.findById(idChat);
+
+        if (user.isEmpty() || chatToDelete.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Chat chat = chatToDelete.get();
+        if (chat.getLoginFrom().equals(loginFrom)) {
+            chatRepository.delete(chat);
+            return ResponseEntity.ok().body("Сообщение удалено");
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Вы не можете удалять это сообщение");
         }
     }
 }

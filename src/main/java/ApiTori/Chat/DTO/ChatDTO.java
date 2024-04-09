@@ -13,6 +13,5 @@ import java.sql.Timestamp;
 public class ChatDTO {
     private String message;
     private Timestamp dateChat;
-    private Integer imageId;
-
+    private String imageId;
 }

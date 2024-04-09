@@ -20,9 +20,9 @@ import java.util.List;
 @NoArgsConstructor
 public class Photo {
     @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "uniqIdentifier_photo")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer uniqIdentifier;
+    private String uniqIdentifier;
 
     @ManyToOne()
     @JoinColumn(name = "sender_id")

@@ -15,5 +15,5 @@ public class ChatDTORequest {
     private String loginFrom;
     private String message;
     private Timestamp dateChat;
-    private int imageId;
+    private String imageId;
 }

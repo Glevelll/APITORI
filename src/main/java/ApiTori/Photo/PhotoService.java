@@ -9,9 +9,9 @@ public interface PhotoService {
 
     PhotoDTO sendPhoto(String loginOfSender, List<String> loginsOfRecipients, byte[] description, Timestamp datePhoto);
 
-    PhotoDTO getPhoto(Integer identifier);
+    PhotoDTO getPhoto(String identifier);
 
-    boolean deletePhoto(Integer identifier, Integer photoId);
+    boolean deletePhoto(Integer identifier, String photoId);
 
     List<PhotoDTO> getRecievedPhotos(String loginOfUser);
 

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Data
 public class PhotoDTO {
-    private Integer uniqIdentifier;
+    private String uniqIdentifier;
     private PhotoUserDto sender;
     private Timestamp datePhoto;
     private String url;

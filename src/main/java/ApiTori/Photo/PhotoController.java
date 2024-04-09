@@ -34,12 +34,12 @@ public class PhotoController {
 
     @GetMapping("/{identifier}")
     @ResponseBody
-    public ResponseEntity<PhotoDTO> getPhoto(@PathVariable Integer identifier) {
+    public ResponseEntity<PhotoDTO> getPhoto(@PathVariable String identifier) {
         return ResponseEntity.ok().body(photoService.getPhoto(identifier));
     }
 
     @PostMapping("/delete/{userId}/{photoId}")
-    public ResponseEntity<?> deletePhoto(@PathVariable Integer userId, @PathVariable Integer photoId) {
+    public ResponseEntity<?> deletePhoto(@PathVariable Integer userId, @PathVariable String photoId) {
         boolean deletionResult = photoService.deletePhoto(userId, photoId);
         if (deletionResult) {
             return ResponseEntity.status(HttpStatus.OK).build();

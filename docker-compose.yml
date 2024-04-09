@@ -4,13 +4,15 @@ services:
     build: .
     restart: unless-stopped
     ports:
-      - "8081:8082"
+      - "8081:8081"
     networks:
       - appnet
     depends_on:
       - postgresql_db
     links:
       - postgresql_db:postgresql_db
+    volumes:
+      - /root/APITORI/images/:/root/APITORI/images/
   postgresql_db:
     image: postgres:latest
     restart: unless-stopped
@@ -24,8 +26,10 @@ services:
       - appnet
     volumes:
       - db:/var/lib/postgresql/data
+      - /root/APITORI/images/:/root/APITORI/images/
 
 networks:
   appnet:
 volumes:
   db:
+  images:

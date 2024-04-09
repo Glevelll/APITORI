@@ -13,8 +13,8 @@ import java.util.Optional;
 /**
  * @author Bulat Sharapov
  */
-public interface PhotoRepository extends JpaRepository<Photo, Integer> {
-    Optional<Photo> findByUniqIdentifier(Integer uniqIdentifier);
+public interface PhotoRepository extends JpaRepository<Photo, String> {
+    Optional<Photo> findByUniqIdentifier(String uniqIdentifier);
 
     @Query("SELECT p FROM Photo p WHERE p.sender.id = :senderId")
     List<Photo> findPhotosBySenderId(@Param("senderId") Integer senderId);

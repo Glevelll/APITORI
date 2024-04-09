@@ -20,8 +20,13 @@ public class ChatController {
     }
 
     @GetMapping("/getMessages")
-    public ResponseEntity<?> getMessages(@RequestParam List<Integer> imageIds) {
+    public ResponseEntity<?> getMessages(@RequestParam List<String> imageIds) {
         return chatService.getMessages(imageIds);
+    }
+
+    @PostMapping("/{loginFrom}/deleteMessage/{id_chat}")
+    public ResponseEntity<?> deleteMessage(@PathVariable String loginFrom, @PathVariable int id_chat) {
+        return chatService.deleteMessage(loginFrom, id_chat);
     }
 
 

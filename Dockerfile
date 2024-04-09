@@ -1,11 +1,3 @@
-FROM postgres
-
-ENV POSTGRES_USER=postgres
-ENV POSTGRES_PASSWORD=448880Gleb
-ENV POSTGRES_DB=ToriApiDb
-
-EXPOSE 5432
-
 FROM maven:3-openjdk-17 as build
 COPY src /home/application/src
 COPY pom.xml /home/application
