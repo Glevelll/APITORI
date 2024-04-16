@@ -64,8 +64,13 @@ public class UserPrivacyService {
         return ResponseEntity.notFound().build();
     }
 
-    public ResponseEntity<String> sendCodeToEmail(String email) {
+    public ResponseEntity<String> sendCodeToEmailReg(String email) {
         logger.info("Отправляем пароль на почту");
+
+        if (userRepository.existsUserByEmail(email)) {
+            throw new RuntimeException("Пользователь с таким email уже существует в базе данных");
+        }
+
         mailSender.sendVerificationCode(email);
         return ResponseEntity.ok().build();
     }
@@ -152,5 +157,16 @@ public class UserPrivacyService {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Login already exists in the database.");
         }
         return ResponseEntity.ok("Login is Available");
+    }
+
+    public ResponseEntity<?> sendCodeToEmail(String email) {
+        logger.info("Отправляем пароль на почту");
+
+        if (userRepository.existsUserByEmail(email)) {
+            mailSender.sendVerificationCode(email);
+            return ResponseEntity.ok().build();
+        } else {
+            throw new RuntimeException("Пользователь не найден");
+        }
     }
 }

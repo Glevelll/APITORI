@@ -24,6 +24,11 @@ public class PrivacyController {
         return userPrivacyService.createUser(dto);
     }
 
+    @PostMapping("/sendCodeToEmailReg")
+    public ResponseEntity<?> sendCodeToEmailReg(@RequestParam String email) {
+        return userPrivacyService.sendCodeToEmailReg(email);
+    }
+
     @PostMapping("/sendCodeToEmail")
     public ResponseEntity<?> sendCodeToEmail(@RequestParam String email) {
         return userPrivacyService.sendCodeToEmail(email);
